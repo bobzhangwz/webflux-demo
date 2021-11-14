@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  app:
+    image: gradle:7-jdk11-alpine
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - maven_cache:/root/.m2
+      - iv2_cache:/root/.ivy2
+    working_dir: /app
+    command: gradle bootRun
+    depends_on:
+      - jaeger
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+
+volumes:
+  maven_cache: {}
+  iv2_cache: {}
