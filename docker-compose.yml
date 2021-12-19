@@ -2,19 +2,32 @@ version: "3"
 
 services:
   app:
-    image: gradle:7-jdk11-alpine
+    image: gradle:7-jdk11
     env_file:
       - .env
+    environment:
+      JAEGER_ENDPOINT: 'http://jaeger:14250'
     ports:
       - "8080:8080"
+      - "8081:8081"
     volumes:
       - .:/app
-      - maven_cache:/root/.m2
-      - iv2_cache:/root/.ivy2
+      - ~/.m2:/root/.m2
+      - ~/.ivy2:/root/.ivy2
+      - gradle_cache:/home/gradle/.gradle
     working_dir: /app
     command: gradle bootRun
+    hostname: app
     depends_on:
       - jaeger
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
 
   jaeger:
     image: jaegertracing/all-in-one:latest
@@ -27,6 +40,23 @@ services:
       - "14268:14268"
       - "14250:14250"
 
+  grafana:
+    image: "grafana/grafana:latest"
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=password
+    container_name: grafana
+
+  keycloak:
+    image: jboss/keycloak
+    restart: always
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8888:8080"
+
 volumes:
-  maven_cache: {}
-  iv2_cache: {}
+  gradle_cache: {}
