@@ -4,15 +4,15 @@ import kotlin.streams.toList
 val excludesFiles = listOf("io.zhpooer.demo.*").map { it.replace(".", "/") }
 
 plugins {
-	id("org.springframework.boot") version "2.5.6"
+	id("org.springframework.boot") version "2.6.2"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 
 	id("com.gorylenko.gradle-git-properties") version "2.2.4"
   id("co.uzzu.dotenv.gradle") version "1.1.0"
   id("com.diffplug.spotless") version "5.17.0"
 
-	kotlin("jvm") version "1.5.31"
-	kotlin("plugin.spring") version "1.5.31"
+	kotlin("jvm") version "1.6.10"
+	kotlin("plugin.spring") version "1.6.10"
 
   jacoco
   application
