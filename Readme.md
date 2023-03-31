@@ -2,7 +2,6 @@
 ## Todo
 
 1. Actuator diagnostic
-2. PlantUml
 
 ## Tech Stack
 
