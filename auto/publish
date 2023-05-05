@@ -1,10 +1,12 @@
 #!/bin/bash -eux
 
-REPOSITORY="160071257600.dkr.ecr.ap-northeast-1.amazonaws.com/hello_world_spring"
+REPOSITORY=${REPOSITORY-hello_world_bff}
+REGISTRY=${REGISTRY-'160071257600.dkr.ecr.ap-northeast-1.amazonaws.com'}
+
 BUILD_NUMBER=0.0.${BUILD_ID-DEV}
 
 cd $(dirname ${BASH_SOURCE[0]})/..
 
 ./auto/test gradle clean bootJar
 
-docker build . --file Dockerfile --build-arg JAR_FILE=./build/libs/webflux-bff-0.0.1-SNAPSHOT.jar -t ${REPOSITORY}:${BUILD_NUMBER}
+docker build . --file Dockerfile --build-arg JAR_FILE=./build/libs/webflux-bff-0.0.1-SNAPSHOT.jar -t ${REGISTRY}/${REPOSITORY}:${BUILD_NUMBER}
