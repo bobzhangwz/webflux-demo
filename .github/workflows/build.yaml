@@ -18,6 +18,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::160071257600:role/github-action-role-8190d8e
           aws-region: ap-northeast-1
+          role-session-name: githubAction
 
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
