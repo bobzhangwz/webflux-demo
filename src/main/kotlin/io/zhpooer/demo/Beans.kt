@@ -24,6 +24,7 @@ val allBeans = beans {
   bean<CorrelationIdBadgeFilter>()
   bean<HelloWorldHandler>()
   bean<HttpBinController>()
+  bean<HelloWorldController>()
   bean<HttpBinHealthIndicator>("httpBinHealth")
 }
 

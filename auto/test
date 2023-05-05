@@ -1,0 +1,6 @@
+#!/bin/bash -eux
+
+PWD=`dirname ${BASH_SOURCE[0]}`
+
+docker-compose down --remove-orphans
+docker-compose run --rm --service-ports build ${@-gradle test}

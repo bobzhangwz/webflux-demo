@@ -181,10 +181,6 @@ tasks.withType<JacocoReport> {
   classDirectories.setFrom(files(sourceSets["main"].output))
   executionData.setFrom(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
 
-  reports{
-    xml.isEnabled = true
-    html.isEnabled = true
-  }
   afterEvaluate {
     classDirectories.setFrom(files(classDirectories.files.map {
       fileTree(it).apply { exclude(excludesFiles) }

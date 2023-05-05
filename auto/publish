@@ -1,0 +1,10 @@
+#!/bin/bash -eux
+
+REPOSITORY="160071257600.dkr.ecr.ap-northeast-1.amazonaws.com/hello_world_spring"
+BUILD_NUMBER=0.0.${BUILD_ID-DEV}
+
+cd $(dirname ${BASH_SOURCE[0]})/..
+
+./auto/test gradle clean app:bootJar
+
+docker build . --file Dockerfile --build-arg JAR_FILE=./app/build/libs/app.jar -t ${REPOSITORY}:${BUILD_NUMBER}

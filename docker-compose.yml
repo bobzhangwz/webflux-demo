@@ -1,6 +1,26 @@
 version: "3"
 
 services:
+  _base: &base
+    image: gradle:8.0-jdk11-alpine
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /tmp/.gradle:/home/gradle/.gradle
+    working_dir: /app
+    command: gradle bootRun
+
+  dev:
+    <<: *base
+    ports:
+      - "8080:8080"
+    command: gradle bootRun
+
+  build:
+    <<: *base
+    command: gradle test
+
   app:
     image: gradle:7-jdk11
     env_file:

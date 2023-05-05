@@ -39,7 +39,7 @@ class HttpBinController(webClientBuilder: WebClient.Builder) {
     return ServerResponse.status(respStatus).buildAndAwait()
   }
 
-  @Bean
+  @Bean("HttpBinControllerRouters")
   private fun routers() = coRouter {
     accept(MediaType.APPLICATION_JSON).nest {
       GET("/api/v1/ping", this@HttpBinController::ping)

@@ -1,0 +1,6 @@
+#!/bin/bash -eux
+
+cd $(dirname ${BASH_SOURCE[0]})/..
+
+docker-compose down --remove-orphans
+docker-compose run --rm --service-ports dev ${@-gradle bootRun}
