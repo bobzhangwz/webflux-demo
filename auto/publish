@@ -5,6 +5,6 @@ BUILD_NUMBER=0.0.${BUILD_ID-DEV}
 
 cd $(dirname ${BASH_SOURCE[0]})/..
 
-./auto/test gradle clean app:bootJar
+./auto/test gradle clean bootJar
 
 docker build . --file Dockerfile --build-arg JAR_FILE=./app/build/libs/app.jar -t ${REPOSITORY}:${BUILD_NUMBER}
