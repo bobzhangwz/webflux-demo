@@ -28,7 +28,7 @@ class HelloWorldController(
       .uri { it.path("/hello").queryParam("name", name).build() }
       .retrieve()
       .awaitBodyOrNull<String>() ?: ""
-    return ServerResponse.ok().bodyValue(response).awaitSingle();
+    return ServerResponse.ok().bodyValue(response).awaitSingle()
   }
 
   @Bean("HelloWorldControllerRouters")
