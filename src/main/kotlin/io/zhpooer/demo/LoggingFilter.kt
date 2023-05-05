@@ -18,11 +18,11 @@ class LoggingFilter(
     val isManageEndpoint = request.uri.path.contains(managementPath)
 
     return chain.filter(exchange).doFirst {
-      if(!isManageEndpoint) log.info(requestInfo)
+      if (!isManageEndpoint) log.info(requestInfo)
     }.doOnError {
       log.error(requestInfo, it)
     }.doFinally {
-      if(!isManageEndpoint) log.info("${exchange.response.statusCode} $requestInfo")
+      if (!isManageEndpoint) log.info("${exchange.response.statusCode} $requestInfo")
     }
   }
 }

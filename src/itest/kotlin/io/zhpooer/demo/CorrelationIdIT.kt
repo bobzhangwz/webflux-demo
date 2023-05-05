@@ -17,14 +17,14 @@ class CorrelationIdIT(@LocalServerPort val serverPort: Int) {
   fun `it should pass correlation id to downstream system`() {
     Given {
       port(serverPort)
-      header("x-requestid", "8")
+      header("My-Request-Id", "8")
       log().all()
     } When {
       get("/api/v1/ping")
     } Then {
       log().all()
       statusCode(200)
-      body("headers.X-Requestid", `is`("8"))
+      body("headers.My-Request-Id", `is`("8"))
     }
   }
 
@@ -38,7 +38,7 @@ class CorrelationIdIT(@LocalServerPort val serverPort: Int) {
     } Then {
       log().all()
       statusCode(200)
-      body("headers.X-Requestid", not(emptyOrNullString()))
+      body("headers.My-Request-Id", not(emptyOrNullString()))
     }
   }
 }
