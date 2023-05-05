@@ -7,6 +7,9 @@ jobs:
   test:
     name: run test
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write   # This is required for requesting the JWT
+      contents: read    # This is required for actions/checkout
     env:
       BUILD_ID: ${{github.run_number}}
     steps:
@@ -16,7 +19,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2 # More information on this action can be found below in the 'AWS Credentials' section
         with:
-          role-to-assume: arn:aws:iam::160071257600:role/github-action-role-52c172d
+          role-to-assume: arn:aws:iam::160071257600:role/github-action-role-ffeeae1
           aws-region: ap-northeast-1
           role-session-name: githubAction
 
