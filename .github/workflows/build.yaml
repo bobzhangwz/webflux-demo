@@ -12,6 +12,13 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2 # More information on this action can be found below in the 'AWS Credentials' section
+        with:
+          role-to-assume: arn:aws:iam::160071257600:role/github-action-role-8190d8e
+          aws-region: ap-northeast-1
+
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: moby-engine moby-cli docker-compose
@@ -26,12 +33,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - run: ./auto/test
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2 # More information on this action can be found below in the 'AWS Credentials' section
-        with:
-          role-to-assume: arn:aws:iam::160071257600:role/github-action-role-8190d8e
-          aws-region: ap-northeast-1
 
       - name: Login to Amazon ECR
         id: login-ecr
