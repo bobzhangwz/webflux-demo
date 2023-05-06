@@ -26,8 +26,12 @@ jobs:
 
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          packages: moby-engine moby-cli docker-compose kubectl awscli
+          packages: moby-engine moby-cli docker-compose awscli
           version: 1.0
+
+      - name: Kubectl tool installer
+        uses: Azure/setup-kubectl@v3
+
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
