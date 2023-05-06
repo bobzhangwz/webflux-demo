@@ -26,7 +26,7 @@ jobs:
 
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          packages: moby-engine moby-cli docker-compose
+          packages: moby-engine moby-cli docker-compose kubectl awscli
           version: 1.0
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -47,3 +47,11 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: ./auto/publish
+
+#      - name: 'eks login'
+#        run:  aws eks --region ap-northeast-1 update-kubeconfig --name noneprod-devkit-cluster
+#
+#      - name: release
+#        env:
+#          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#        run: ./auto/deploy

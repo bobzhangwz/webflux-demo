@@ -1,0 +1,13 @@
+#!/bin/bash -eux
+
+cd $(dirname ${BASH_SOURCE[0]})/..
+
+REPOSITORY=${REPOSITORY-hello_world_bff}
+REGISTRY=${REGISTRY-'160071257600.dkr.ecr.ap-northeast-1.amazonaws.com'}
+BUILD_NUMBER=0.0.${BUILD_ID-DEV}
+
+export IMAGE=${REGISTRY}/${REPOSITORY}:${BUILD_NUMBER}
+
+cat ./ops/deployment.yaml | env $(cat ./ops/param.dev.env | xargs)  envsubst | kubectl apply -f -
+
+kubectl rollout status deployment webflux-bff
