@@ -32,7 +32,7 @@ spec:
   selector:
     matchLabels:
       app: webflux-bff
-  replicas: "$REPLICA_COUNT"
+  replicas: $REPLICA_COUNT
   template:
     metadata:
       labels:
