@@ -10,4 +10,4 @@ export IMAGE=${REGISTRY}/${REPOSITORY}:${BUILD_NUMBER}
 
 cat ./ops/deployment.yaml | env $(cat ./ops/param.dev.env | xargs)  envsubst | kubectl apply -f -
 
-kubectl rollout status deployment webflux-bff
+kubectl rollout status -n dojo deployment webflux-bff
