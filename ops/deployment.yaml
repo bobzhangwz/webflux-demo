@@ -68,6 +68,9 @@ spec:
         - image: "$IMAGE"
           imagePullPolicy: Always
           name: weblfux-bff
+          env:
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: ${OTEL_EXPORTER_OTLP_ENDPOINT}
           ports:
             - containerPort: 8080
           livenessProbe:

@@ -39,17 +39,17 @@ services:
     command: gradle bootRun
     hostname: app
     depends_on:
-      - jaeger
+      - jaeger-all-in-one
       - prometheus
 
   prometheus:
     image: prom/prometheus:latest
     ports:
-      - "9090:9090"
+      - "9091:9090"
     volumes:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
 
-  jaeger:
+  jaeger-all-in-one:
     image: jaegertracing/all-in-one:latest
     ports:
       - "5775:5775/udp"
@@ -59,6 +59,26 @@ services:
       - "16686:16686"
       - "14268:14268"
       - "14250:14250"
+      - "9411:9411"
+
+  # Collector
+  otel-collector:
+    image:  otel/opentelemetry-collector:0.77.0
+    restart: always
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "1888:1888"   # pprof extension
+      - "8888:8888"   # Prometheus metrics exposed by the collector
+      - "8889:8889"   # Prometheus exporter metrics
+      - "13133:13133" # health_check extension
+      - "4317:4317"   # OTLP gRPC receiver
+      - "55679:55679" # zpages extension
+    hostname: otel-collector
+    depends_on:
+      - jaeger-all-in-one
+      - prometheus
 
   grafana:
     image: "grafana/grafana:latest"
