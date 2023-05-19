@@ -4,12 +4,13 @@ import kotlin.streams.toList
 val excludesFiles = listOf("io.zhpooer.demo.*").map { it.replace(".", "/") }
 
 plugins {
-	id("org.springframework.boot") version "2.5.6"
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	id("org.springframework.boot") version "2.7.10"
+	id("io.spring.dependency-management") version "1.1.0"
 
 	id("com.gorylenko.gradle-git-properties") version "2.2.4"
   id("co.uzzu.dotenv.gradle") version "1.1.0"
   id("com.diffplug.spotless") version "5.17.0"
+  id("de.undercouch.download") version "5.4.0"
 
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
@@ -25,12 +26,12 @@ group = "io.zhpooer"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
-extra["springCloudVersion"] = "2020.0.4"
+extra["springCloudVersion"] = "2021.0.7"
 
 dependencyManagement {
   imports {
-    mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-    mavenBom("org.springframework.cloud:spring-cloud-sleuth-otel-dependencies:1.0.0-M12")
+    mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.7")
+    mavenBom("org.springframework.cloud:spring-cloud-sleuth-otel-dependencies:1.1.3")
   }
 }
 
@@ -56,7 +57,8 @@ dependencies {
 	}
 	implementation("org.springframework.cloud:spring-cloud-sleuth-instrumentation")
 	implementation("org.springframework.cloud:spring-cloud-sleuth-otel-autoconfigure")
-	runtimeOnly("io.opentelemetry:opentelemetry-exporter-jaeger")
+  implementation("io.opentelemetry:opentelemetry-exporter-otlp")
+//	runtimeOnly("io.opentelemetry:opentelemetry-exporter-jaeger")
 	runtimeOnly("io.grpc:grpc-netty-shaded:1.41.0")
 	runtimeOnly("io.grpc:grpc-protobuf:1.41.0")
 	runtimeOnly("io.grpc:grpc-stub:1.41.0")
@@ -185,5 +187,14 @@ tasks.withType<JacocoReport> {
     classDirectories.setFrom(files(classDirectories.files.map {
       fileTree(it).apply { exclude(excludesFiles) }
     }))
+  }
+}
+
+tasks.getByName("bootJar") {
+  doLast {
+    download.run {
+      src("https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar")
+      dest("${project.buildDir.toString()}/otel/opentelemetry-javaagent.jar")
+    }
   }
 }
