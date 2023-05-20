@@ -63,6 +63,10 @@ spec:
     metadata:
       labels:
         app: webflux-bff
+      annotations:
+        prometheus.io/scrape: true
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: 8081
     spec:
       containers:
         - image: "$IMAGE"
