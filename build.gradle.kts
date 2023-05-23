@@ -193,8 +193,8 @@ tasks.withType<JacocoReport> {
 tasks.getByName("bootJar") {
   doLast {
     download.run {
-      src("https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar")
-      dest("${project.buildDir.toString()}/otel/opentelemetry-javaagent.jar")
+      src("https://github.com/aws-observability/aws-otel-java-instrumentation/releases/download/v1.26.0/aws-opentelemetry-agent.jar")
+      dest("${project.buildDir.toString()}/otel/aws-opentelemetry-agent.jar")
     }
   }
 }
