@@ -9,6 +9,8 @@ import org.springframework.web.reactive.function.client.awaitBodyOrNull
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.coRouter
+import software.amazon.awssdk.auth.credentials.WebIdentityTokenFileCredentialsProvider
+import software.amazon.awssdk.services.s3.S3Client
 
 class HelloWorldController(
   webClientBuilder: WebClient.Builder,
@@ -31,10 +33,21 @@ class HelloWorldController(
     return ServerResponse.ok().bodyValue(response).awaitSingle()
   }
 
+  private suspend fun testS3(request: ServerRequest): ServerResponse {
+    val s3Client = S3Client.builder()
+      .credentialsProvider(WebIdentityTokenFileCredentialsProvider.create())
+      .build();
+
+    s3Client.listBuckets().buckets().forEach { logger.info("Bucket: ${it.name()}") }
+
+    return ServerResponse.ok().build().awaitSingle();
+  }
+
   @Bean("HelloWorldControllerRouters")
   private fun routers() = coRouter {
     accept(MediaType.APPLICATION_JSON).nest {
       GET("/api/v1/hello", this@HelloWorldController::callbackend)
+      GET("/api/v1/s3", this@HelloWorldController::testS3)
     }
   }
 }

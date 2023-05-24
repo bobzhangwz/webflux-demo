@@ -68,6 +68,7 @@ spec:
         prometheus.io/path: '/actuator/prometheus'
         prometheus.io/port: '8081'
     spec:
+      serviceAccountName: s3-access-sa
       containers:
         - image: "$IMAGE"
           imagePullPolicy: Always

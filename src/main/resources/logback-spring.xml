@@ -11,6 +11,22 @@
         <timestampFormat>yyyy-MM-dd' 'HH:mm:ssZZ</timestampFormat>
         <appendLineSeparator>true</appendLineSeparator>
       </layout>
+<!--      <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">-->
+<!--        <providers>-->
+<!--          <pattern>-->
+<!--            <omitEmptyFields>true</omitEmptyFields>-->
+<!--            <pattern>-->
+<!--              {-->
+<!--              "logger": "%logger",-->
+<!--              "level": "%level",-->
+<!--              "thread": "%thread",-->
+<!--              "message": "%.-1024message",-->
+<!--              "traceId": "%mdc{traceId}"-->
+<!--              }-->
+<!--            </pattern>-->
+<!--          </pattern>-->
+<!--        </providers>-->
+<!--      </encoder>-->
     </appender>
   </springProfile>
   <springProfile name="dev">

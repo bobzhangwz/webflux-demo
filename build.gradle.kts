@@ -63,9 +63,13 @@ dependencies {
 	runtimeOnly("io.grpc:grpc-protobuf:1.41.0")
 	runtimeOnly("io.grpc:grpc-stub:1.41.0")
 
+  implementation(platform("software.amazon.awssdk:bom:2.20.56"))
+  implementation("software.amazon.awssdk:s3")
+
 	runtimeOnly("org.postgresql:postgresql")
   runtimeOnly("ch.qos.logback.contrib:logback-json-classic:0.1.5")
   runtimeOnly("ch.qos.logback.contrib:logback-jackson:0.1.5")
+  runtimeOnly("net.logstash.logback:logstash-logback-encoder:7.3")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
